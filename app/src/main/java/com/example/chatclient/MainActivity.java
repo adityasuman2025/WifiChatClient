@@ -28,22 +28,24 @@ public class MainActivity extends AppCompatActivity {
     EditText welcomeMsg;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        welcomeMsg = (EditText)findViewById(R.id.welcomemsg);
         editTextAddress = (EditText) findViewById(R.id.address);
         editTextPort = (EditText) findViewById(R.id.port);
+
         buttonConnect = (Button) findViewById(R.id.connect);
         buttonClear = (Button) findViewById(R.id.clear);
-        textResponse = (TextView) findViewById(R.id.response);
 
-        welcomeMsg = (EditText)findViewById(R.id.welcomemsg);
+        textResponse = (TextView) findViewById(R.id.response);
 
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
 
-        buttonClear.setOnClickListener(new OnClickListener() {
-
+        buttonClear.setOnClickListener(new OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 textResponse.setText("");
@@ -51,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    OnClickListener buttonConnectOnClickListener = new OnClickListener() {
-
+    OnClickListener buttonConnectOnClickListener = new OnClickListener()
+    {
         @Override
         public void onClick(View arg0) {
 
@@ -77,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         String response = "";
         String msgToServer;
 
-        MyClientTask(String addr, int port, String msgTo) {
+        MyClientTask(String addr, int port, String msgTo)
+        {
             dstAddress = addr;
             dstPort = port;
             msgToServer = msgTo;
@@ -148,5 +151,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 }
