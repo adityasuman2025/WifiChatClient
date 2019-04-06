@@ -112,11 +112,11 @@ public class MainActivity extends AppCompatActivity
             } catch (UnknownHostException e)
             {
                 e.printStackTrace();
-                chatHistory.setText("Failed to connect to the client. You are connected to wrong WI-Fi or Host may not be active at the moment");
+                response = "Failed to connect to the client. You are connected to wrong WI-Fi or Host may not be active at the moment";
             } catch (IOException e)
             {
                 e.printStackTrace();
-                response = "IOException: " + e.toString();
+                response = "IOException: " +  "Failed to connect to the client. You are connected to wrong WI-Fi or Host may not be active at the moment";;
             } finally
             {
                 if (socket != null)
