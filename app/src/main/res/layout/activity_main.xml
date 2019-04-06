@@ -16,10 +16,19 @@
         android:textSize="90px"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/feed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:textColor="@android:color/holo_red_dark"
+        android:textAlignment="center"
+        android:textSize="45px"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title"
+        android:layout_below="@id/feed"
         android:layout_above="@+id/sendMsgArea">
 
     <TextView

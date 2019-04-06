@@ -1,5 +1,9 @@
 package com.example.chatclient;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,13 +23,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
+    TextView feed;
+    TextView chatHistory;
 
-    TextView textResponse;
-    EditText editTextAddress, editTextPort;
-    Button buttonConnect, buttonClear;
-
-    EditText welcomeMsg;
+    EditText msgText;
+    Button msgSendBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,52 +37,51 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        welcomeMsg = (EditText)findViewById(R.id.welcomemsg);
-        editTextAddress = (EditText) findViewById(R.id.address);
-        editTextPort = (EditText) findViewById(R.id.port);
+        feed = (TextView) findViewById(R.id.feed);
+        chatHistory = (TextView) findViewById(R.id.chatHistory);
 
-        buttonConnect = (Button) findViewById(R.id.connect);
-        buttonClear = (Button) findViewById(R.id.clear);
+        msgText = findViewById(R.id.msgText);
+        msgSendBtn = findViewById(R.id.msgSendBtn);
 
-        textResponse = (TextView) findViewById(R.id.response);
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        buttonConnect.setOnClickListener(buttonConnectOnClickListener);
-
-        buttonClear.setOnClickListener(new OnClickListener()
+        if (!mWifi.isConnected()) //if wifi is not connected
         {
-            @Override
-            public void onClick(View v) {
-                textResponse.setText("");
-            }
-        });
-    }
-
-    OnClickListener buttonConnectOnClickListener = new OnClickListener()
-    {
-        @Override
-        public void onClick(View arg0) {
-
-            String tMsg = welcomeMsg.getText().toString();
-            if(tMsg.equals(""))
-            {
-                tMsg = null;
-                Toast.makeText(MainActivity.this, "No Welcome Msg sent", Toast.LENGTH_SHORT).show();
-            }
-
-            MyClientTask myClientTask = new MyClientTask(editTextAddress
-                    .getText().toString(), Integer.parseInt(editTextPort
-                    .getText().toString()),
-                    tMsg);
-            myClientTask.execute();
+            feed.setText("Mobile Wi-Fi is OFF. Please start it, connect to Host Hotspot and restart the App");
         }
-    };
+        else // if wifi is connected
+        {
+            final String hotspotIP = "192.168.43.1";
+            final int port = 3399;
+
+        //on clicking on send msg button
+            msgSendBtn.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    String tMsg = msgText.getText().toString();
+
+                    if(tMsg.equals(""))
+                    {
+                        tMsg = null;
+                    }
+
+                    MyClientTask myClientTask = new MyClientTask(hotspotIP, port, tMsg);
+                    myClientTask.execute();
+                }
+            });
+        }
+    }
 
     public class MyClientTask extends AsyncTask<Void, Void, Void>
     {
         String dstAddress;
         int dstPort;
-        String response = "";
         String msgToServer;
+
+        String response = "";
 
         MyClientTask(String addr, int port, String msgTo)
         {
@@ -94,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
             DataOutputStream dataOutputStream = null;
             DataInputStream dataInputStream = null;
 
-            try {
+            try
+            {
                 socket = new Socket(dstAddress, dstPort);
-                dataOutputStream = new DataOutputStream(
-                        socket.getOutputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 dataInputStream = new DataInputStream(socket.getInputStream());
 
                 if(msgToServer != null){
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (UnknownHostException e)
             {
                 e.printStackTrace();
-                response = "UnknownHostException: " + e.toString();
+                chatHistory.setText("Failed to connect to the client. You are connected to wrong WI-Fi or Host may not be active at the moment");
             } catch (IOException e)
             {
                 e.printStackTrace();
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void result) {
-            textResponse.setText(response);
+            chatHistory.setText(response);
             super.onPostExecute(result);
         }
     }
