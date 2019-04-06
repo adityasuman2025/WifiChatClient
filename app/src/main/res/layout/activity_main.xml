@@ -1,39 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <EditText
-        android:id="@+id/welcomemsg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Say hello to server" />
-    <EditText
-        android:id="@+id/address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="dstAddress" />
-    <EditText
-        android:id="@+id/port"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="dstPort" />
-    <Button
-        android:id="@+id/connect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Connect..."/>
-    <Button
-        android:id="@+id/clear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Clear"/>
     <TextView
-        android:id="@+id/response"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CLIENT"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="90px"
+        android:textStyle="bold" />
 
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_above="@+id/sendMsgArea">
+
+    <TextView
+            android:id="@+id/chatHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/sendMsgArea"
+        android:layout_width="match_parent"
+        android:layout_height="160px"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/msgText"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/msgSendBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@color/colorAccent"
+            android:layout_margin="20px"
+            android:text=">"
+            android:textColor="@android:color/background_light" />
+    </LinearLayout>
+</RelativeLayout>

@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View arg0) {
 
             String tMsg = welcomeMsg.getText().toString();
-            if(tMsg.equals("")){
+            if(tMsg.equals(""))
+            {
                 tMsg = null;
                 Toast.makeText(MainActivity.this, "No Welcome Msg sent", Toast.LENGTH_SHORT).show();
             }
@@ -72,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public class MyClientTask extends AsyncTask<Void, Void, Void> {
-
+    public class MyClientTask extends AsyncTask<Void, Void, Void>
+    {
         String dstAddress;
         int dstPort;
         String response = "";
@@ -87,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
-
+        protected Void doInBackground(Void... arg0)
+        {
             Socket socket = null;
             DataOutputStream dataOutputStream = null;
             DataInputStream dataInputStream = null;
@@ -105,29 +106,33 @@ public class MainActivity extends AppCompatActivity {
 
                 response = dataInputStream.readUTF();
 
-            } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
+            } catch (UnknownHostException e)
+            {
                 e.printStackTrace();
                 response = "UnknownHostException: " + e.toString();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
+            } catch (IOException e)
+            {
                 e.printStackTrace();
                 response = "IOException: " + e.toString();
-            } finally {
-                if (socket != null) {
+            } finally
+            {
+                if (socket != null)
+                {
                     try {
                         socket.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
                 }
 
-                if (dataOutputStream != null) {
-                    try {
+                if (dataOutputStream != null)
+                {
+                    try
+                    {
                         dataOutputStream.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
                 }
@@ -135,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
                 if (dataInputStream != null) {
                     try {
                         dataInputStream.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
                 }
@@ -149,6 +154,5 @@ public class MainActivity extends AppCompatActivity {
             textResponse.setText(response);
             super.onPostExecute(result);
         }
-
     }
 }
